@@ -7,7 +7,7 @@ DOC_DIR=/usr/share/doc/secure_delete
 OPT_MOD=-D__KERNEL__ -DMODULE -fomit-frame-pointer -fno-strict-aliasing -pipe -mpreferred-stack-boundary=2
 #LD_MOD=-r
 
-all: sdel-lib.o srm sfill sswap smem
+all: sdel-lib.o srm sfill sswap sdmem
 	@echo
 	@echo "A Puritan is someone who is deathly afraid that someone, somewhere, is"
 	@echo "having fun."
