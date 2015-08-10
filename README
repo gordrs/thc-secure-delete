@@ -1,4 +1,4 @@
-
+*** Source imported to git from http://www.thc.org/ ***
 
 
                           S E C U R E   D E L E T E
@@ -34,7 +34,7 @@
 
                             1. INTRODUCTION
                             2. HOW THESE PROGRAMS WORK
-                            3. COMMANDLINE OPTIONS
+                            3. COMMAND LINE OPTIONS
                             4. LIMITATIONS
 			    5. COMPARISON
                             6. LAST WORDS
@@ -66,7 +66,7 @@
      The four utilities do the following :
 
      srm does secure deletion of files.
-     sfill does a secure overwriting of the unused diskspace on the harddisk.
+     sfill does a secure overwriting of the unused disk space on the hard disk.
      sswap does a secure overwriting and cleaning of the swap filesystem.
 	(note that sswap was only tested on linux so far.
          you must unmount your swap first!)
@@ -92,7 +92,7 @@
 
     Note that with v2.0 all secure_delete utilities work in secure mode
     (38 special passes). To lower the security and make it faster, you
-    may add -l (onf 0xff pass, one random pass) or -ll (one random pass) to
+    may add -l (one 0xff pass, one random pass) or -ll (one random pass) to
     the parameters. 
      
      The secure overwrite mode works that way:
@@ -100,7 +100,7 @@
       1x overwrite with 0xff
       5x random passes
      27x overwriting with special values to make the recovery from MFM and
-         RLL encoded harddisks hard/impossible - see Gutmann's paper on that
+         RLL encoded hard disks hard/impossible - see Gutmann's paper on that
          which is also included.
       5x random passes     
 
@@ -109,7 +109,7 @@
      Some statistics :
 
      in 1 second you can approx. overwrite 1 to 2 MB of data, depending
-     on your harddrive performance.
+     on your hard disk performance.
 
      In totally insecure mode, a 100 MB file/free-disk-space takes
      approx. 15 seconds, and in the totally secure mode approx. 60 minutes.
@@ -118,19 +118,19 @@
 
 
 
-     3. COMMANDLINE OPTIONS
+     3. COMMAND LINE OPTIONS
 
-     Here are the commandline options:
+     Here are the command line options:
 
      srm    [-d] [-f] [-l] [-l] [-v] [-z] file [file] [another file] [etc.]
      sfill  [-i] [-I] [-f] [-l] [-l] [-v] [-z] target-directory
      sswap  [-f] [-l] [-l] [-v] [-z] /dev/of_swap_filesystem
      smem   [-f] [-l] [-l] [-v]
 
-     The -s options are depricated now, and will be ignored.
+     The -s options are deprecated now, and will be ignored.
 
       -d   don't delete the dot special files "." and ".." on the
-           commandline (only srm)
+           command line (only srm)
       -i   wipe only free inode space, not free disk space on the filesystem
            (only sfill)
       -I   wipe only free disk space, not free inode space on the filesystem
@@ -139,7 +139,7 @@
            but less secure.
       -l   lessens the security. Only one random plus one pass with 0xff are
 	   written.
-      -l   a seconds time as parameter switches into the insecurest mode,
+      -l   a seconds time as parameter switches into the most insecure mode,
 	   it overwrites the file only once with 0xff.
       -v   turn verbose mode on.
       -z   last wipe mode writes zeros instead of random data
@@ -152,7 +152,7 @@
 
      Options may be applied like "-lfv", "-l -f -v" or a mix.
 
-     Note: If you use a gnu-compactible linux, you can use the patch rm.diff
+     Note: If you use a GNU-compatible Linux, you can use the patch rm.diff
      included in the package to put the features from srm into your normal
      rm. Just enter your fileutils-3.16 directory, type "patch < rm.diff"
      and then "make". You need at least one -s switch to activate
@@ -160,7 +160,7 @@
 
 
      NOTE:
-     For the linux kernel module, you just have to do "insmod sdel-mod"
+     For the Linux kernel module, you just have to do "insmod sdel-mod"
      to load the module. After that, all files, which are deleted by any
      program are then wiped once before the space is marked as free.
 
@@ -170,7 +170,7 @@
 
      This section discusses limitations of the programs presented and general
      problems and threats of secure data deletion - and how to handle them.
-     As you can see from the sourcecode, these are very small and generic
+     As you can see from the source code, these are very small and generic
      programs. That means that they aren't perfect and doesn't cover any
      aspect of secure data deletion. Please read this section carefully
      to learn against which problems it does NOT help.
@@ -191,7 +191,7 @@
             Here's an extract from an answer Peter Gutmann wrote me as
             I asked him about that problem :
 
-   > 1st to be compactible with all platforms i didn t use a crypt-random
+   > 1st to be compatible with all platforms, I didn't use a crypt-random
    > library, I use a simple  (256*rand()/(RAND_MAX+1.0)) seeded 1st time with
    > the pid. For every byte to overwrite the file I call that function.
    > I know that this random stuff is not "secure" for online crypting,
@@ -207,26 +207,26 @@
 
           - Disk Caching
             Note that this is only important for FILE DELETION (srm) for free
-            diskspace wiping the data which will be overwritten is large
+            disk space wiping the data which will be overwritten is large
             enough.
             Imagine that you overwrite a file for 50 times, you feel secure,
             but only one - the last overwrite - is really made.
             This can be the case if you use smart software caches, hardware
             cache-controllers - or the cachebuffers which are present on
-            all (E)IDE and SCSI harddisks.
+            all (E)IDE and SCSI hard disks.
             This programs uses fsync() - it depends on your unix and hardware
             if this is enough.
             If you use an hardware cache-controller you must remove it.
-            For the cachebuffers of the harddisks you must overwrite a file
+            For the cachebuffers of the hard disks you must overwrite a file
             which is greater in size than the diskbuffer. You can either
-            add data to the file until it reachs that size or you define
+            add data to the file until it reaches that size or you define
             the BLOCKSIZE definition to a size big enough
             Here again is en extract of an answer Peter Gutmann wrote in
             regard of this threat :
 
-   > 2nd is the chaching problem. For msdos i flush smartdrive after every
+   > 2nd is the caching problem. For msdos i flush smartdrive after every
    > write of a pattern, on unix I use sync. That makes it easy to compile
-   > on all platforms, yes, but it won't flush the harddisks internal caches.
+   > on all platforms, yes, but it won't flush the hard disks internal caches.
    > how big must be the file to force the internal cache to write to disk?
    > at the moment I do only full 16 kb writes to a) overwrite the whole block
    > and also to reach the limit of the internal cache.
@@ -253,23 +253,23 @@
                - All disk partitions must be set write protected in some way
                  before you want to do something which shouldn't be saved
                  anywhere. MsDos tools are available, on unix they can be
-                 mounted readonly, Win95/WinNT : don't know if thats possible.
+                 mounted readonly, Win95/WinNT : don't know if that is possible.
                - Install a ramdisk from which you start all applications
                  (for Windows set the working directory on the ramdisk)
                  and ensure that all temporary stuff, etc. points to that disk.
-                 If you can't afford ram, repartition your disks so that you
+                 If you can't afford ram, re-partition your disks so that you
                  get an 20+ MB diskspace either ensure a complete wiping of
                  that partition after every session (use "sfill -v")
-                 or use a crypted filesystem (see next step).
+                 or use an encrypted filesystem (see next step).
                  For unix you should set a ramdrive for the swap partition,
-                 and use an additional ramdisk or crypted partition for
+                 and use an additional ramdisk or encrypted partition for
                  /tmp and ensure that /usr/tmp and /var/tmp point to it.
 		 If you can't afford buying ram so you don't need swap, you
 		 can use the secure swap cleaner, included in this package.
 		 With v1.8 of secure_deletion, you can also use sswap to
 		 clean your swap space after you unmounted it.
                - If you really need the data you produced or analysed,
-                 then create a crypted filesystem on a disk partition.
+                 then create an encrypted filesystem on a disk partition.
                  For unix you can use CFS (newest version v1.4.x), for MsDos
                  and Windows 3.x there are SFS v1.7 and SecureDrive v1.4a
                  available. I don't know any for Win95 and WinNT - but these
@@ -301,18 +301,18 @@
                  why this is a problem - and this one can't be solved.
                - How long are your files present on the server? Long enough
                  that they are written on a backup?
-               - A hacker or law enforcement/spies could have trojanized the
+               - A hacker or law enforcement/spies could have trojaned the
                  server in a way that your files won't be overwritten and
                  removed but those files are written to a special place waiting
                  to be retrieved by them. Nearly all known network operating
                  systems and also some firewalls can be penetrated from remote,
                  no kidding. So don't think that you are not vulnerable.
-                 Another possiblity is that the memory of the server is
+                 Another possibility is that the memory of the server is
                  surveilled and all reading/writing processes own by you or
                  anyone copied.
                - Even if everything is ensured there might be still problems
-                 on high-end systems, which use f.e. Raid5 or similar redunant
-                 harddisk systems which prevent data loss by keeping copies
+                 on high-end systems, which use f.e. Raid5 or similar redundant
+                 hard disk systems which prevent data loss by keeping copies
                  and checksums, and you must find a way to trash those
                  information too.
             The solution is easy: don't put any private and important stuff
@@ -328,7 +328,7 @@
             But another file, f.e. a config file, was written when exiting the
             program and parts of the temporary file are now owned and
             overwritten by the config file. sfill or any similar program won't
-            trash that filearea because it's used by a file. And the data on
+            trash that file area because it's used by a file. And the data on
             this area can be recovered with cheap hardware.
             Solution : see above, "temporary files and disks"
             If you really care about your files that they can't be recovered
