@@ -1,5 +1,5 @@
 CC=gcc
-OPT=${CFLAGS} -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+OPT=${CFLAGS} -fstack-protector-strong -fPIC -pie -Wl,-z,relro -Wl,-z,now -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 #OPT=-Wall -D_DEBUG_ -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 INSTALL_DIR=${prefix}/bin
 MAN_DIR=/usr/local/man

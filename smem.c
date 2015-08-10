@@ -1,7 +1,7 @@
 /* Secure MEMORY cleaner - by van Hauser / [THC], vh@thc.org
  *
  * Note that this program is beta. It was tested with linux, solaris and
- * openbsd but I can't tell for other platforms. 
+ * openbsd but I can't tell for other platforms.
  *
  * Secure MEMORY overwrites all data in your memory it gets.
  * The any -l option this does a real security wipe for 38 times, flushing
@@ -27,7 +27,7 @@
 #include <signal.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-                     
+
 #include "sdel.h"
 
 #ifdef BLOCKSIZE
@@ -69,7 +69,7 @@ int smash_it(int mode) {
     unsigned char buffers[27][BLOCKSIZE+2];
     char *ptr;
     struct rlimit rlim;
-    
+
     if (verbose) {
         switch (mode) {
            case 0 : printf("Wipe mode is insecure (one pass with 0x00)\n");
@@ -119,7 +119,7 @@ int smash_it(int mode) {
 
     if (mode > 1) {
         for (turn=0; turn<27; turn++) {
-            __sdel_fill_buf(write_modes[turn], BLOCKSIZE + 2, buf);
+            __sdel_fill_buf((char *)write_modes[turn], BLOCKSIZE + 2, buf);
             memcpy(buffers[turn], buf, BLOCKSIZE);
         }
     }
@@ -163,7 +163,7 @@ void cleanup() {
 int main (int argc, char *argv[]) {
     int secure = 2;
     int result;
-    
+
     prg = argv[0];
     if (argc == 2)
         if ( (strncmp(argv[1],"-h", 2) == 0) || (strcmp(argv[1],"-?") == 0) )

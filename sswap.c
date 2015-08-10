@@ -77,7 +77,7 @@ int main (int argc, char *argv[]) {
     unsigned long start = SWAP_PAGESIZE;
     struct stat stats;
     char *filename;
-    
+
     prg = argv[0];
     if (argc == 1 || strncmp(argv[1], "-h", 2) == 0 || strncmp(argv[1], "--h", 3) == 0)
         help();
@@ -91,7 +91,7 @@ int main (int argc, char *argv[]) {
                        break;
             case 'J' :
             case 'j' : start = atol(optarg);
-                       if (start < 0 || start > 65535) {
+                       if ((start < 0) || (start > 65535)) {
                            fprintf(stderr, "Error: The -j option must be set between 0 and 65535!\n");
                            exit(-1);
                        }

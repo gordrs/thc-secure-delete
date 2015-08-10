@@ -44,7 +44,7 @@
  *
  * Compiles clean on OpenBSD, Linux, Solaris, AIX and I guess all others.
  *
- */ 
+ */
 
 /*
  * For security reasons full 32kb blocks are written so that the whole block
@@ -53,7 +53,7 @@
  * the caches after every write. The wipe technique was proposed by Peter
  * Gutmann at Usenix '96 and includes 10 random overwrites plus 28 special
  * defined characters. Take a look at the paper of him, it's really worth
- * your time. 
+ * your time.
  *
  * Read the manual for limitations.
  */
@@ -67,7 +67,7 @@
 void __sdel_fill_buf(char pattern[3], unsigned long bufsize, char *buf) {
     int loop;
     int where;
-    
+
     for (loop = 0; loop < (bufsize / 3); loop++) {
         where = loop * 3;
 	*buf++ = pattern[0];
@@ -78,7 +78,7 @@ void __sdel_fill_buf(char pattern[3], unsigned long bufsize, char *buf) {
 
 void __sdel_random_buf(unsigned long bufsize, char *buf) {
     int loop;
-    
+
     if (devrandom == NULL)
         for (loop = 0; loop < bufsize; loop++)
             *buf++ = (unsigned char) (256.0*rand()/(RAND_MAX+1.0));
@@ -170,9 +170,9 @@ int sdel_overwrite(int mode, int fd, long start, unsigned long bufsize, unsigned
             return -1;
     if (mode != 0 || zero) {
         if (mode == 0)
-            __sdel_fill_buf(std_array_00, bufsize, buf);
+            __sdel_fill_buf((char *)std_array_00, bufsize, buf);
         else
-            __sdel_fill_buf(std_array_ff, bufsize, buf);
+            __sdel_fill_buf((char *)std_array_ff, bufsize, buf);
         if (writes > 0)
             for (counter=1; counter<=writes; counter++)
                 fwrite(&buf, 1, bufsize, f); // dont care for errors
@@ -197,7 +197,7 @@ int sdel_overwrite(int mode, int fd, long start, unsigned long bufsize, unsigned
         if ((mode < 2) && (turn > 0))
             break;
         if ((turn >= 5) && (turn <= 31)) {
-            __sdel_fill_buf(write_modes[turn-5], bufsize, buf);
+            __sdel_fill_buf((char *)write_modes[turn-5], bufsize, buf);
             if (writes > 0)
                 for (counter = 1; counter <= writes; counter++)
                     fwrite(&buf, 1, bufsize, f); // dont care for errors
@@ -206,7 +206,7 @@ int sdel_overwrite(int mode, int fd, long start, unsigned long bufsize, unsigned
         } else {
             if (zero && ((mode == 2 && turn == 36) || mode == 1)) {
                 last = 1;
-                __sdel_fill_buf(std_array_00, bufsize, buf);
+                __sdel_fill_buf((char *)std_array_00, bufsize, buf);
             }
             if (writes > 0) {
 	        for (counter = 1; counter <= writes; counter++) {
@@ -317,7 +317,7 @@ void sdel_wipe_inodes(char *loc, char **array) {
     if (loc[strlen(loc) - 1] != '/')
         strcat(template, "/");
     strcat(template, "xxxxxxxx.xxx");
-       
+
     while(i < MAXINODEWIPE && fail < 5) {
         __sdel_random_filename(template);
         if (open(template, O_CREAT | O_EXCL | O_WRONLY, 0600) < 0)
@@ -329,11 +329,11 @@ void sdel_wipe_inodes(char *loc, char **array) {
         }
     }
     FLUSH;
-       
+
     if (fail < 5) {
         fprintf(stderr, "Warning: could not wipe all inodes!\n");
     }
-       
+
     array[i] = NULL;
     fd = 0;
     while(fd < i) {

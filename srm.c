@@ -10,7 +10,7 @@
  * the caches after every write. The wipe technique was proposed by Peter
  * Gutmann at Usenix '96 and includes 10 random overwrites plus 28 special
  * defined characters. Take a look at the paper of him, it's really worth
- * your time. 
+ * your time.
  *
  * Advice : set "alias rm 'srm -v'"
  *
@@ -33,7 +33,7 @@
 #include <sys/resource.h>
 
 #include "sdel.h"
-   
+
 int slow = O_SYNC;
 int recursive = 0;
 int zero = 0;
@@ -66,7 +66,8 @@ int smash_it(char *filename, int mode)  {
             return 1;
 
     if (S_ISREG(filestat.st_mode) && filestat.st_nlink > 1) {
-        fprintf(stderr, "Error: File %s - file is hardlinked %d time(s), skipping!\n", filename, filestat.st_nlink - 1);
+        fprintf(stderr, "Error: File %s - file is hardlinked %lu time(s), skipping!\n",
+                filename, (unsigned long)filestat.st_nlink - 1);
         return -1;
     }
 
@@ -88,11 +89,11 @@ int smash_it(char *filename, int mode)  {
 	    char current_dir[4097];
 	    int res;
 	    int chdir_success = 1;
- 
+
             if (verbose) printf("DIRECTORY (going recursive now)\n");
             getcwd(current_dir, 4096);
             current_dir[4096] = '\0';
-            
+
             /* a won race will chmod a file to 0700 if the user is owner/root
                I'll think about a secure solution to this, however, I think
                there isn't one - anyone with an idea? */
@@ -233,7 +234,7 @@ int main (int argc, char *argv[]) {
             case 'Z' :
             case 'z' : zero++;
                        break;
-            default :  help();       
+            default :  help();
         }
     }
     loop = optind;
