@@ -29,7 +29,7 @@
  
 +/* SRM BEGIN */
 +#define BLOCKSIZE	32769
-+#define DIR_SEPERATOR	'/'
++#define DIR_SEPARATOR	'/'
 +#define FLUSH		sync()
 +#define RANDOM_DEVICE	"/dev/urandom"
 +/* SRM END */

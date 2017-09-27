@@ -89,7 +89,7 @@ void __sdel_random_buf(unsigned long bufsize, char *buf) {
 void __sdel_random_filename(char *filename) {
     int i;
     for (i = strlen(filename) - 1;
-         (filename[i] != DIR_SEPERATOR) && (i >= 0);
+         (filename[i] != DIR_SEPARATOR) && (i >= 0);
          i--)
         if (filename[i] != '.') /* keep dots in the filename */
             filename[i] = 97+(int) ((int) ((256.0 * rand()) / (RAND_MAX + 1.0)) % 26);

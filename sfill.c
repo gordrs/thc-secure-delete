@@ -142,7 +142,7 @@ int main (int argc, char *argv[]) {
             /* Generate random unique name for tempfile */
 	    srand(getpid()+getuid());
 
-            if (newname[strlen(newname)-1] != DIR_SEPERATOR)
+            if (newname[strlen(newname)-1] != DIR_SEPARATOR)
                strcat(newname, "/");
 
 	    turn = 0; result = 0;
@@ -151,7 +151,7 @@ int main (int argc, char *argv[]) {
 
             while ((result >= 0) && (turn <= 250)) {
                 for (counter = strlen(newname)-1;
-                     (newname[counter] != DIR_SEPERATOR);
+                     (newname[counter] != DIR_SEPARATOR);
                      counter--)
                     if (newname[counter] != '.') 
                        newname[counter] = 97+(int) (27.0 * rand() / (RAND_MAX + 1.0));
