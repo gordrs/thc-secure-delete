@@ -58,7 +58,7 @@ unsigned char write_modes[27][3] = {
 
 unsigned char std_array[3] = "\xff\xff\xff";
 
-#define DIR_SEPERATOR	'/'
+#define DIR_SEPARATOR	'/'
 #define FLUSH		sync_orig()
 #define BLOCKSIZE       32769
 
